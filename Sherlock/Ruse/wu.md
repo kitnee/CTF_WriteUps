@@ -655,7 +655,6 @@ flowchart TD
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">T1095</td>
       <td style="border: 1px solid #444444; padding: 10px; text-align: left;">The initial reverse shell payload communicated over a raw TCP socket (/dev/tcp/192.168.1.2/4242) rather than standard HTTP/DNS protocols.</td>
     </tr>
-
     <tr>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Defense Evasion</td>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Subvert Trust Controls: Gatekeeper Bypass</td>
@@ -668,7 +667,6 @@ flowchart TD
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">T1105</td>
       <td style="border: 1px solid #444444; padding: 10px; text-align: left;">The attacker abused curl to download race.zip (containing the MacDirtyCOW exploit) from their C2 server.</td>
     </tr>
-
     <tr>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Privilege Escalation</td>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Exploitation for Privilege Escalation</td>
@@ -681,7 +679,6 @@ flowchart TD
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">T1556.003</td>
       <td style="border: 1px solid #444444; padding: 10px; text-align: left;">The attacker modified the macOS PAM configuration file for 'su' (replacing 'pam_rootok.so' with 'pam_permit.so') to bypass password verification and gain a root shell.</td>
     </tr>
-
     <tr>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Persistence</td>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Create Account: Local Account</td>
@@ -700,7 +697,6 @@ flowchart TD
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">T1078.003</td>
       <td style="border: 1px solid #444444; padding: 10px; text-align: left;">The attacker utilized the newly created backdoor account 'loki' to legitimately log into the system via SSH, bypassing normal anomaly detections.</td>
     </tr>
-
     <tr>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Defense Evasion</td>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Hide Artifacts: Hidden Files and Directories</td>
