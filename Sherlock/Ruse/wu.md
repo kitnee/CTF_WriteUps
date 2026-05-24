@@ -586,42 +586,42 @@ So the answer is: `T1543.001`
 
 ```mermaid
 flowchart TD
-    classDef red fill:#ff4747,stroke:#2d3436,stroke-width:2px,color:#ffffff,font-weight:bold;
-    classDef orange fill:#ff9f43,stroke:#2d3436,stroke-width:2px,color:#000000,font-weight:bold;
-    classDef yellow fill:#feca57,stroke:#2d3436,stroke-width:2px,color:#000000,font-weight:bold;
-    classDef green fill:#1dd1a1,stroke:#2d3436,stroke-width:2px,color:#000000,font-weight:bold;
-    classDef root fill:#d63031,stroke:#000000,stroke-width:4px,color:#ffffff,font-weight:bold;
+    %% Đổi toàn bộ chữ sang màu đen (#000000) và dùng màu nền Pastel để chống lỗi hiển thị
+    classDef red fill:#ff7675,stroke:#2d3436,stroke-width:2px,color:#000000,font-weight:bold;
+    classDef orange fill:#ffb142,stroke:#2d3436,stroke-width:2px,color:#000000,font-weight:bold;
+    classDef yellow fill:#ffeaa7,stroke:#2d3436,stroke-width:2px,color:#000000,font-weight:bold;
+    classDef green fill:#55efc4,stroke:#2d3436,stroke-width:2px,color:#000000,font-weight:bold;
+    classDef root fill:#ff4757,stroke:#000000,stroke-width:4px,color:#000000,font-weight:bold;
 
-    subgraph Phase 1: Initial Access & Execution
-        A[Victim executes Scientific-Calculator.app]:::green --> B[Triggers Bash Reverse Shell]:::green
+    subgraph Phase1 ["Phase 1: Initial Access & Execution"]
+        A["Victim executes<br/>Scientific-Calculator.app"]:::green --> B["Triggers Bash<br/>Reverse Shell"]:::green
     end
 
-    subgraph Phase 2: Defense Evasion & Tool Transfer
-        B --> C[Uses 'curl' to download 'race.zip' from C2<br/>Bypasses Gatekeeper]:::yellow
-        C --> D[Extracts & Compiles switch_race.c]:::yellow
-        D --> E[Crafts Mach-O executable: expooo at Desktop]:::yellow
+    subgraph Phase2 ["Phase 2: Defense Evasion & Tool Transfer"]
+        B --> C["Uses 'curl' to download<br/>'race.zip' from C2<br/>Bypasses Gatekeeper"]:::yellow
+        C --> D["Extracts & Compiles<br/>switch_race.c"]:::yellow
+        D --> E["Crafts Mach-O executable:<br/>expooo at Desktop"]:::yellow
     end
 
-    subgraph Phase 3: Privilege Escalation
-        E --> F[Exploits MacDirtyCOW CVE-2022-46689<br/>via Race Condition]:::orange
-        F --> G[Overwrites 'su' PAM configuration<br/>pam_rootok.so -> pam_permit.so]:::orange
-        G --> H(((OBTAINS ROOT PRIVILEGES))):::root
+    subgraph Phase3 ["Phase 3: Privilege Escalation"]
+        E --> F["Exploits MacDirtyCOW<br/>CVE-2022-46689<br/>via Race Condition"]:::orange
+        F --> G["Overwrites 'su' PAM config:<br/>pam_rootok.so -> pam_permit.so"]:::orange
+        G --> H((("OBTAINS ROOT<br/>PRIVILEGES"))):::root
     end
 
-    subgraph Phase 4: Persistence & Command and Control
-        H --> I[Uses sysadminctl to create backdoor user 'loki']:::red
-        H --> J[Enables SSH service com.openssh.sshd]:::red
+    subgraph Phase4 ["Phase 4: Persistence & Command and Control"]
+        H --> I["Uses sysadminctl to create<br/>backdoor user 'loki'"]:::red
+        H --> J["Enables SSH service<br/>com.openssh.sshd"]:::red
         I -.-> K
-        J -.-> K[Attacker logs in via SSH using 'loki']:::red
-        K --> L[Drops 'b4ckdoor' payload <br/> Demsty malware family]:::red
-        L --> M[Creates masqueraded LaunchAgent: com.appule.sysetmd.plist<br/>Points to /Users/loki/.local/bin/sysetmd]:::red
-        L --> P[Establishes Command & Control C2 connection<br/>Awaiting remote instructions]:::red
+        J -.-> K["Attacker logs in via<br/>SSH using 'loki'"]:::red
+        K --> L["Drops 'b4ckdoor' payload<br/>(Demsty malware family)"]:::red
+        L --> M["Creates masqueraded LaunchAgent:<br/>com.appule.sysetmd.plist<br/>Points to:<br/>/Users/loki/.local/bin/sysetmd"]:::red
+        M --> P["Establishes C2 connection<br/>Awaiting remote instructions"]:::red
     end
 
-    subgraph Phase 5: Post-Incident
-        P --> N[Victim detects anomaly & deletes 'loki' user]:::green
-        M --> N
-        N --> O[System automatically generates loki.dmg]:::green
+    subgraph Phase5 ["Phase 5: Post-Incident"]
+        P --> N["Victim detects anomaly &<br/>deletes 'loki' user"]:::green
+        N --> O["System automatically<br/>generates loki.dmg"]:::green
     end
 ```
 
