@@ -586,7 +586,6 @@ So the answer is: `T1543.001`
 
 ```mermaid
 flowchart TD
-    %% Đổi toàn bộ chữ sang màu đen (#000000) và dùng màu nền Pastel để chống lỗi hiển thị
     classDef red fill:#ff7675,stroke:#2d3436,stroke-width:2px,color:#000000,font-weight:bold;
     classDef orange fill:#ffb142,stroke:#2d3436,stroke-width:2px,color:#000000,font-weight:bold;
     classDef yellow fill:#ffeaa7,stroke:#2d3436,stroke-width:2px,color:#000000,font-weight:bold;
@@ -605,7 +604,7 @@ flowchart TD
 
     subgraph Phase3 ["Phase 3: Privilege Escalation"]
         E --> F["Exploits MacDirtyCOW<br/>CVE-2022-46689<br/>via Race Condition"]:::orange
-        F --> G["Overwrites 'su' PAM config:<br/>pam_rootok.so -> pam_permit.so"]:::orange
+        F --> G["<div style='min-width: 300px;'>Overwrites 'su' PAM config:<br/>pam_rootok.so -> pam_permit.so</div>"]:::orange
         G --> H((("OBTAINS ROOT<br/>PRIVILEGES"))):::root
     end
 
@@ -615,8 +614,8 @@ flowchart TD
         I -.-> K
         J -.-> K["Attacker logs in via<br/>SSH using 'loki'"]:::red
         K --> L["Drops 'b4ckdoor' payload<br/>(Demsty malware family)"]:::red
-        L --> M["Creates masqueraded LaunchAgent:<br/>com.appule.sysetmd.plist<br/>Points to:<br/>/Users/loki/.local/bin/sysetmd"]:::red
-        L --> P["Establishes C2 connection<br/>Awaiting remote instructions"]:::red
+        L --> M["<div style='min-width: 350px;'>Creates masqueraded LaunchAgent:<br/>com.appule.sysetmd.plist<br/>Points to:<br/>/Users/loki/.local/bin/sysetmd</div>"]:::red
+        L --> P["<div style='min-width: 280px;'>Establishes C2 connection<br/>Awaiting remote instructions</div>"]:::red
     end
 
     subgraph Phase5 ["Phase 5: Post-Incident"]
