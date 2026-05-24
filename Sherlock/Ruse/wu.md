@@ -599,27 +599,27 @@ flowchart TD
     subgraph Phase2 ["Phase 2: Defense Evasion & Tool Transfer"]
         B --> C["Uses 'curl' to download<br/>'race.zip' from C2<br/>Bypasses Gatekeeper"]:::yellow
         C --> D["Extracts & Compiles<br/>switch_race.c"]:::yellow
-        D --> E["Crafts Mach-O executable:<br/>expooo at Desktop"]:::yellow
+        D --> E["Crafts Mach-O<br/>executable:<br/>expooo at Desktop"]:::yellow
     end
 
     subgraph Phase3 ["Phase 3: Privilege Escalation"]
         E --> F["Exploits MacDirtyCOW<br/>CVE-2022-46689<br/>via Race Condition"]:::orange
-        F --> G["<div style='min-width: 300px;'>Overwrites 'su' PAM config:<br/>pam_rootok.so -> pam_permit.so</div>"]:::orange
+        F --> G["Overwrites 'su'<br/>PAM config:<br/>pam_rootok.so<br/>-> pam_permit.so"]:::orange
         G --> H((("OBTAINS ROOT<br/>PRIVILEGES"))):::root
     end
 
     subgraph Phase4 ["Phase 4: Persistence & Command and Control"]
-        H --> I["Uses sysadminctl to create<br/>backdoor user 'loki'"]:::red
+        H --> I["Uses sysadminctl<br/>to create backdoor<br/>user 'loki'"]:::red
         H --> J["Enables SSH service<br/>com.openssh.sshd"]:::red
         I -.-> K
-        J -.-> K["Attacker logs in via<br/>SSH using 'loki'"]:::red
-        K --> L["Drops 'b4ckdoor' payload<br/>(Demsty malware family)"]:::red
-        L --> M["<div style='min-width: 350px;'>Creates masqueraded LaunchAgent:<br/>com.appule.sysetmd.plist<br/>Points to:<br/>/Users/loki/.local/bin/sysetmd</div>"]:::red
-        L --> P["<div style='min-width: 280px;'>Establishes C2 connection<br/>Awaiting remote instructions</div>"]:::red
+        J -.-> K["Attacker logs in<br/>via SSH using 'loki'"]:::red
+        K --> L["Drops 'b4ckdoor'<br/>payload (Demsty)"]:::red
+        L --> M["Creates masqueraded<br/>LaunchAgent:<br/>com.appule.sysetmd.plist<br/><br/>Points to:<br/>/Users/loki/<br/>.local/bin/sysetmd"]:::red
+        L --> P["Establishes C2<br/>connection:<br/>Awaiting remote<br/>instructions"]:::red
     end
 
     subgraph Phase5 ["Phase 5: Post-Incident"]
-        P --> N["Victim detects anomaly &<br/>deletes 'loki' user"]:::green
+        P --> N["Victim detects anomaly<br/>& deletes 'loki' user"]:::green
         M --> N
         N --> O["System automatically<br/>generates loki.dmg"]:::green
     end
