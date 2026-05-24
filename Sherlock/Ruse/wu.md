@@ -616,11 +616,12 @@ flowchart TD
         J -.-> K["Attacker logs in via<br/>SSH using 'loki'"]:::red
         K --> L["Drops 'b4ckdoor' payload<br/>(Demsty malware family)"]:::red
         L --> M["Creates masqueraded LaunchAgent:<br/>com.appule.sysetmd.plist<br/>Points to:<br/>/Users/loki/.local/bin/sysetmd"]:::red
-        M --> P["Establishes C2 connection<br/>Awaiting remote instructions"]:::red
+        L --> P["Establishes C2 connection<br/>Awaiting remote instructions"]:::red
     end
 
     subgraph Phase5 ["Phase 5: Post-Incident"]
         P --> N["Victim detects anomaly &<br/>deletes 'loki' user"]:::green
+        M --> N
         N --> O["System automatically<br/>generates loki.dmg"]:::green
     end
 ```
