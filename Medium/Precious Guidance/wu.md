@@ -1,6 +1,6 @@
 # WRITE_UP #
 
-## ONE OF US ##
+## Precious Guidance ##
 
 ### 1. Analysis ###
 * **Given:** a vbscript named `SatelliteGuidance.vbs`.
