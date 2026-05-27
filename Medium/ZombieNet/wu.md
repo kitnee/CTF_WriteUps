@@ -1,6 +1,6 @@
 # WRITE_UP #
 
-## KEEP TRYIN_ ##
+## ZombieNet ##
 
 ### 1. Analysis ###
 * **Given:** an OpenWRT dump file named `openwrt-ramips-mt7621-xiaomi_mi-router-4a-gigabit-squashfs-sysupgrade.bin`
