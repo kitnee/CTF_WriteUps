@@ -1,6 +1,6 @@
 # WRITE_UP #
 
-## Logger ##
+## DEADLY ARTHROPOD ##
 
 ### 1. Analysis ###
 * **Given:** a pcap file named `deadly_arthropod.pcap`
