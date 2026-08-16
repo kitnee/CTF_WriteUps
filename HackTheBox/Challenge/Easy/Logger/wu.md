@@ -21,7 +21,7 @@ There are two main source which are from `1.16.1` and `1.13.1`. The frame length
 
 ![](2026-04-02_13-42.png)
 
-Basically, the USB URB Header often occupies a fixed size of 27 bytes, by applying the formula: `Payload Size = Frame Length - Header Size`, I broke down the traffic from `5.3.1`:
+Basically, the USB URB Header often occupies a fixed size of 27 bytes, by applying the formula: `Payload Size = Frame Length - Header Size`, I broke down the traffic from `1.16.1`:
     Frame Length: 35 bytes.Payload: $35 - 27 = 8$ bytes.   
     An 8-byte payload corresponds perfectly to the standard USB HID Keyboard Report format (1 byte for modifiers, 1 reserved byte, and 6 bytes for keycodes).
 
