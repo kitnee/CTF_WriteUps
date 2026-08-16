@@ -30,12 +30,14 @@ status: 404
 request: GET /payment/checkout?data?q=Okp4p18eFzgp HTTP/2.0
 ```
 
-Khi thống kê các endpoint liên quan đến thanh toán, có hai nhóm request bất thường:
+Khi thống kê các endpoint liên quan đến thanh toán, ta thấy có hai nhóm request bất thường:
 
 ```text
 GET /payment/checkout?data?q=<random>
 GET /payment/checkout?data=<token>
 ```
+
+### Nhóm 1:
 
 Nhóm đầu tiên có số lượng rất lớn. Tham số `q` luôn là chuỗi ngẫu nhiên 12 ký tự, ví dụ:
 
@@ -47,23 +49,13 @@ Nhóm đầu tiên có số lượng rất lớn. Tham số `q` luôn là chuỗ
 /payment/checkout?data?q=8MN6s64P4Upj
 ```
 
-Đây là vector flood chính dùng để gây tải lên endpoint checkout. Tuy nhiên các IP gửi nhiều request trong nhóm này chỉ là các bot/proxy tham gia DDoS, không phải IP thật của attacker.
+Đây là vector flood chính dùng để gây tải lên endpoint checkout. Tuy nhiên dễ thấy các IP gửi nhiều request trong nhóm này chỉ là các bot/proxy tham gia DDoS, không phải IP thật của attacker.
 
-Thống kê pha này:
-
-```text
-Tổng request: 1.732.355
-Số IP:        2.049
-User-Agent:   6 giá trị giả được xoay vòng
-```
-
-Hầu hết IP trong pha này gửi số request theo bội số của 64. Đây là dấu hiệu của công cụ DDoS chia việc thành các batch cố định qua danh sách proxy. Nhiều request còn bị chuyển qua cả hai upstream:
-
-```text
-10.16.11.69:443, 10.16.11.68:443
-```
+Khi nhờ AI phân tích, ta thu được hầu hết IP trong pha này gửi số request theo bội số của 64. Đây là dấu hiệu của công cụ DDoS chia việc thành các batch cố định qua danh sách proxy. Nhiều request còn bị chuyển qua cả hai upstream là `10.16.11.69:443` và `10.16.11.68:443`
 
 Một request sai định dạng vẫn có thể khiến ứng dụng thử nhiều backend trước khi trả lỗi, làm tăng chi phí xử lý phía ngân hàng. Vì vậy đây là HTTP Layer-7 GET flood vào endpoint checkout, không phải volumetric DDoS tầng mạng.
+
+### Nhóm 2:
 
 Nhóm thứ hai là replay một token thanh toán hợp lệ:
 
@@ -79,14 +71,6 @@ Giải mã Base64:
 {"id":1862156129,"control":"a2c7230e85bc583e05dd37891facafdb"}
 ```
 
-Thống kê pha này:
-
-```text
-Tổng request: 267.563
-Số IP:        407
-User-Agent:   khoảng 47 giá trị
-```
-
 Như vậy attacker dùng hai chiến thuật:
 
 ```text
@@ -94,9 +78,7 @@ Pha 1: malformed-query flood qua proxy pool
 Pha 2: valid-token flood qua proxy/Tor/VPS pool
 ```
 
-Các IP tạo nhiều request nhất chỉ là worker. Không thể lấy IP đầu tiên hoặc IP có request count cao nhất làm đáp án.
-
-## Baseline phiên thanh toán bình thường
+## Workflow của phiên thanh toán bình thường
 
 Sau một lúc quan sát, ta thấy được một phiên thanh toán bình thường thường có flow:
 
@@ -116,11 +98,11 @@ POST /payment/checkout
 
 Người dùng thông thường chỉ làm việc với một token tại một thời điểm, có chuỗi tải asset và các bước thanh toán tiếp theo. Họ không phát token qua Telegram, không kích hoạt nhiều node kiểm tra hạ tầng, và không quay lại token cũ đúng lúc hệ thống đang bị DDoS để kiểm tra lỗi.
 
-Từ baseline này, cần tìm IP có hành vi chuẩn bị khác biệt, thay vì chỉ tìm IP gửi flood.
+Từ baseline này, cần tìm IP có hành vi chuẩn bị khác biệt chứ không phải chỉ tìm IP gửi flood.
 
 ## Dấu vết operator
 
-Điểm quan trọng là phải phân biệt IP botnet với IP operator. Khi kiểm tra các request trước thời điểm DDoS, IP `42.114.215.243` có hành vi bất thường.
+Khi kiểm tra các request trước thời điểm DDoS, ta thấy IP `42.114.215.243` có hành vi bất thường:
 
 Tại `2026-07-15T21:48:46+07:00`, IP này truy cập hai checkout token khác nhau gần như cùng lúc:
 
@@ -164,9 +146,7 @@ request: GET /payment/checkout?data=eyJpZCI6MTg2MjEwNDU5OSwiY29udHJvbCI6IjE5Y2M1
 user_agent: TelegramBot (like TwitterBot)
 ```
 
-`149.154.161.20` là TelegramBot tạo preview cho đường link được gửi qua Telegram. IP này không phải người gửi link và cũng không phải attacker.
-
-Khoảng vài giây sau TelegramBot, token tiếp tục được mở bởi IP `5.18.87.231`:
+`149.154.161.20` là TelegramBot tạo preview cho đường link được gửi qua Telegram. Khoảng vài giây sau TelegramBot, token tiếp tục được mở bởi IP `5.18.87.231`:
 
 ```text
 729189:
@@ -176,9 +156,7 @@ status: 200
 request: GET /payment/checkout?data=eyJpZCI6MTg2MjEwNDU5OSwiY29udHJvbCI6IjE5Y2M1MjFhZjU4MjU0NzVlNGFlYjA2ODU4N2M5NjY1In0%3D HTTP/2.0
 ```
 
-IP này có thể là thiết bị thứ hai hoặc một thành viên khác trong nhóm, nhưng không phải IP đầu tiên của chuỗi recon.
-
-Sau đó cùng token này tiếp tục được truy cập từ nhiều node `CheckHost`:
+IP này có thể là thiết bị thứ hai hoặc một thành viên khác trong nhóm, nhưng không phải IP đầu tiên của chuỗi recon. Sau đó cùng token này tiếp tục được truy cập từ nhiều node `CheckHost`:
 
 ```text
 729484:
@@ -199,7 +177,7 @@ user_agent: CheckHost (https://check-host.net/)
 
 ![](pic9.png)
 
-Điều này cho thấy link checkout được IP `42.114.215.243` mở trước, sau đó bị đưa ra Telegram và dịch vụ CheckHost để kiểm tra khả năng truy cập từ nhiều nơi. Đây là hành vi chuẩn bị/kiểm tra mục tiêu trước khi tấn công, không giống hành vi khách hàng bình thường.
+Điều này cho thấy link checkout được IP `42.114.215.243` mở trước, sau đó bị đưa ra Telegram và dịch vụ CheckHost để kiểm tra khả năng truy cập từ nhiều nơi. Đây là hành vi chuẩn bị và kiểm tra mục tiêu trước khi tấn công, không giống hành vi khách hàng bình thường.
 
 Chuỗi recon có thể tóm tắt như sau:
 
@@ -269,17 +247,6 @@ Dòng cuối rất quan trọng: chính IP `42.114.215.243` quay lại kiểm tr
 
 IP này không kiểm tra token DDoS `1862156129` trực tiếp. Thay vào đó, nó dùng token cũ làm một control URL để xem cổng thanh toán còn hoạt động hay không. Kết quả `500` rồi timeout cho thấy cuộc tấn công đã ảnh hưởng đến backend. Hành vi này phù hợp với attacker kiểm tra hiệu quả DDoS.
 
-## Loại trừ các IP khác
-
-Một số IP ban đầu có vẻ đáng nghi nhưng không phải đáp án:
-
-- `188.165.59.127`: một trong các proxy worker đầu tiên của pha malformed-query flood. Nó gửi request theo mẫu batch giống hàng nghìn IP khác, không có hành vi recon trước đó.
-- `95.217.72.253`: worker có số lượng request lớn trong pha `?data?q=<random>`, nhưng vẫn chỉ là bot/proxy của một vector flood.
-- `149.154.161.20`: TelegramBot tạo preview URL. Access log của website chỉ thấy IP bot của Telegram, không thấy IP người gửi link.
-- `5.18.87.231`: mở token sau TelegramBot, có thể là thiết bị thứ hai hoặc người nhận link, nhưng không phải nguồn đầu tiên của chuỗi recon.
-- `37.110.114.174`: mở lại token `1862103823` trong lúc DDoS, nhưng xuất hiện sau chuỗi recon ban đầu. Hành vi phù hợp với người nhận link hoặc một node kiểm tra hơn là nguồn điều khiển ban đầu.
-- Các Tor exit, VPS và proxy khác: chỉ là hạ tầng che giấu và phát tán request.
-
 ## Kết luận
 
 Cuộc tấn công được thực hiện theo hướng:
@@ -307,8 +274,8 @@ Flow tổng quát:
         ▼
 [Chuẩn bị proxy/Tor/VPS pool]
         │
-        ├── Pha 1: 1.732.355 malformed GET requests từ 2.049 IP
-        ├── Pha 2: 267.563 GET requests replay token hợp lệ từ 407 IP
+        ├── Pha 1: malformed GET requests
+        ├── Pha 2: GET requests replay token hợp lệ
         ▼
 [Backend quá tải, xuất hiện 500/499/timeout]
         │
@@ -323,19 +290,15 @@ Các IP có lượng request lớn chỉ là bot/proxy trong DDoS. IP để lạ
 42.114.215.243
 ```
 
-Tính SHA-256 của chuỗi IP:
+Ta tính được SHA-256 của chuỗi IP bằng lệnh sau:
 
 ```bash
 printf '42.114.215.243' | sha256sum
+# thu được: 5d8ff637aa91217932331185a75808fdc42762b0dd5173f25db0caca4383c403
+
 ```
 
-Kết quả:
-
-```text
-5d8ff637aa91217932331185a75808fdc42762b0dd5173f25db0caca4383c403
-```
-
-Flag:
+## Flag
 
 ```text
 MTA{5d8ff637aa91217932331185a75808fdc42762b0dd5173f25db0caca4383c403}
